@@ -1,7 +1,7 @@
 import { Box, Grid, Grow, Rating, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { IMovie } from "../../services/interface";
+import { IMovie } from "../../services/interfaces";
 import { styles } from "./styles";
 
 type Props = {

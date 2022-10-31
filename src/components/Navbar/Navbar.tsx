@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   IconButton,
@@ -14,13 +14,39 @@ import { Menu, AccountCircle, Brightness4, Brightness7 } from "@mui/icons-materi
 import { Link } from "react-router-dom";
 import { styles } from "./styles";
 import { Search, Sidebar } from "../index";
+import { createSessionId, fetchToken, moviesApi } from "../../utils";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setUser, userSelector } from "../../features/auth";
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, user } = useAppSelector(userSelector);
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery("(max-width: 600px)");
-  const isAuthenticated = true;
+
+  const token = localStorage.getItem("request_token");
+  const sessionIdFromLocalStorage = localStorage.getItem("session_id");
+
+  useEffect(() => {
+    const logInUser = async () => {
+      if (token) {
+        if (sessionIdFromLocalStorage) {
+          const { data: userData } = await moviesApi.get(
+            `account?session_id=${sessionIdFromLocalStorage}`,
+          );
+          dispatch(setUser(userData));
+        } else {
+          const sessionId = await createSessionId();
+          const { data: userData } = await moviesApi.get(`account?session_id=${sessionId}`);
+          dispatch(setUser(userData));
+        }
+      }
+    };
+
+    logInUser();
+  }, [token]);
 
   return (
     <>
@@ -43,11 +69,16 @@ const Navbar = () => {
           {!isMobile && <Search />}
           <Box>
             {!isAuthenticated ? (
-              <Button color='inherit'>
+              <Button color='inherit' onClick={fetchToken}>
                 Login &nbsp; <AccountCircle />
               </Button>
             ) : (
-              <Button color='inherit' component={Link} to={`/profile/:id`} sx={styles.linkButton}>
+              <Button
+                color='inherit'
+                component={Link}
+                to={`/profile/${user?.id}`}
+                sx={styles.linkButton}
+              >
                 {!isMobile && <>My Movies &nbsp;</>}
                 <Avatar
                   src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'

@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import { IMovies } from "../../services/interface";
+import { IMovies } from "../../services/interfaces";
 import { Movie } from "../index";
 import { styles } from "./styles";
 

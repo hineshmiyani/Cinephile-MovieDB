@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../app/store";
-
-interface IGenreOrCatergoryState {
-  genreIdOrCategoryName: string | number;
-  page: number;
-  searchQuery: string;
-}
+import { IGenreOrCatergoryState } from "./interfaces";
 
 const initialState: IGenreOrCatergoryState = {
   genreIdOrCategoryName: "",

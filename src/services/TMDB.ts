@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IArgs, IGenres, IMovies } from "./interface";
+import { IArgs, IGenres, IMovies } from "./interfaces";
 
 const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
 const page = 1;

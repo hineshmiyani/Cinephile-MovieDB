@@ -38,8 +38,6 @@ const Sidebar: React.FC<Props> = ({ setMobileOpen }) => {
   const { genreIdOrCategoryName } = useAppSelector((state) => state.currentGenreOrCategory);
   const { data, isFetching } = useGetGenresQuery();
 
-  console.log({ genreIdOrCategoryName });
-
   return (
     <>
       <Link to='/' style={styles.imageLink}>

@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useGetMoviesQuery } from "../../services/TMDB";
 import { useAppSelector } from "../../app/hooks";
 import { MovieList } from "../index";
-import { useState } from "react";
+import { RootState } from "../../app/store";
 
 const Movies = () => {
   const [page, setPage] = useState(1);
   const { genreIdOrCategoryName, searchQuery } = useAppSelector(
-    (state) => state.currentGenreOrCategory,
+    (state: RootState) => state.currentGenreOrCategory,
   );
   const { data, error, isFetching } = useGetMoviesQuery({
     genreIdOrCategoryName,
