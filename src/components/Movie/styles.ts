@@ -1,5 +1,4 @@
-import { SxProps } from "@mui/system";
-import { Theme } from "@mui/material";
+import { Theme, SxProps } from "@mui/material";
 
 interface IStyles {
   movie: SxProps;
@@ -26,6 +25,8 @@ export const styles: IStyles = {
       borderRadius: "8px",
       height: "280px",
       marginBottom: "10px",
+      // boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px",
+      boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
       transition: "all 0.2s ease-in-out",
       "&:hover": {
         transform: "scale(1.05)",

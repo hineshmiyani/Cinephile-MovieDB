@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IArgs, IGenres, IMovies } from "./interfaces";
+import { IArgs, IGenres, IMovieInfo, IMovies, IMoviesRecommendationArgs } from "./interfaces";
 
 const tmdbApiKey = process.env.REACT_APP_TMDB_KEY;
-const page = 1;
 
 export const tmdbApi = createApi({
   reducerPath: "tmdbApi",
@@ -35,7 +34,22 @@ export const tmdbApi = createApi({
         return `movie/popular?page=${page}&api_key=${tmdbApiKey}`;
       },
     }),
+
+    //* Get Specific Movie
+    getMovie: builder.query<IMovieInfo, string | undefined>({
+      query: (id) => `/movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
+    }),
+
+    //* Get Movie Recommandations
+    getRecommendations: builder.query<IMovies, IMoviesRecommendationArgs>({
+      query: ({ movie_id, list }) => `/movie/${movie_id}/${list}?api_key=${tmdbApiKey}`,
+    }),
   }),
 });
 
-export const { useGetGenresQuery, useGetMoviesQuery } = tmdbApi;
+export const {
+  useGetGenresQuery,
+  useGetMoviesQuery,
+  useGetMovieQuery,
+  useGetRecommendationsQuery,
+} = tmdbApi;

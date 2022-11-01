@@ -1,3 +1,7 @@
 body .MuiTooltip-popper {
   margin-top: -12px !important;
 }
+
+* {
+  font-family: "Poppins", sans-serif !important;
+}
