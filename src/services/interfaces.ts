@@ -162,3 +162,10 @@ export interface IMoviesByActorArgs {
   id: string | undefined;
   page: number;
 }
+
+export interface IGetListArgs {
+  listName: string;
+  accountId: number;
+  sessionId: number;
+  page: number;
+}

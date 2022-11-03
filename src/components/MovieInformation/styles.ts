@@ -67,7 +67,7 @@ export const styles: IStyles = {
   }),
   castImage: {
     width: "100%",
-    maxWidth: "7em",
+    maxWidth: "6.5em",
     height: "8em",
     borderRadius: "8px",
     boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",

@@ -1,4 +1,6 @@
-import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Box,
   Button,
@@ -21,34 +23,84 @@ import {
   Remove,
   Theaters,
 } from "@mui/icons-material";
-import { useGetMovieQuery, useGetRecommendationsQuery } from "../../services/TMDB";
+import { MovieList } from "..";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useGetListQuery, useGetMovieQuery, useGetRecommendationsQuery } from "../../services/TMDB";
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
-import { useAppDispatch } from "../../app/hooks";
+import { userSelector } from "../../features/auth";
 import genreIcons from "../../assets/genres";
 import { styles } from "./styles";
-import MovieList from "../MovieList/MovieList";
-import { useState } from "react";
+import { IMovie } from "../../services/interfaces";
 
 const MovieInformation = () => {
   const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only("lg"));
   const buttonGroupSize = lg ? "small" : "medium";
 
-  const dispatch = useAppDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(userSelector);
+
   const { data, isFetching, error } = useGetMovieQuery(id);
   const { data: recommendations, isFetching: isRecommendationsFetching } =
     useGetRecommendationsQuery({ movie_id: id, list: "recommendations" });
+  const { data: favoriteMovies } = useGetListQuery({
+    listName: "favorite/movies",
+    accountId: user?.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1,
+  });
+  const { data: watchListMovies } = useGetListQuery({
+    listName: "watchlist/movies",
+    accountId: user?.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1,
+  });
 
   const [open, setOpen] = useState<boolean>(false);
 
-  const isMovieFavorited = true;
-  const isMovieWatchListed = true;
+  const [isMovieFavorited, setIsMovieFavorited] = useState<boolean>(false);
+  const [isMovieWatchListed, setIsMovieWatchListed] = useState<boolean>(false);
 
-  const addToFavorites = () => {
-    console.log("addToFavorites");
+  useEffect(() => {
+    setIsMovieFavorited(
+      () => !!favoriteMovies?.results?.find((movie: IMovie) => movie?.id === data?.id),
+    );
+  }, [favoriteMovies, data]);
+
+  useEffect(() => {
+    setIsMovieWatchListed(
+      () => !!watchListMovies?.results?.find((movie: IMovie) => movie?.id === data?.id),
+    );
+  }, [watchListMovies, data]);
+
+  const addToFavorites = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user?.id}/favorite?api_key=${
+        process.env.REACT_APP_TMDB_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "movie",
+        media_id: id,
+        favorite: !isMovieFavorited,
+      },
+    );
+    setIsMovieFavorited((prevIsMovieFavorited) => !prevIsMovieFavorited);
   };
-  const addToWatchList = () => {
-    console.log("addToWatchList");
+
+  const addToWatchList = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user?.id}/watchlist?api_key=${
+        process.env.REACT_APP_TMDB_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "movie",
+        media_id: id,
+        watchlist: !isMovieWatchListed,
+      },
+    );
+    setIsMovieWatchListed((prevIsMovieWatchListed) => !prevIsMovieWatchListed);
   };
 
   if (isFetching) {
@@ -84,7 +136,11 @@ const MovieInformation = () => {
           <Box
             component='img'
             sx={styles.poster}
-            src={`https://image.tmdb.org/t/p/w500${data?.poster_path}`}
+            src={
+              data?.poster_path
+                ? `https://image.tmdb.org/t/p/w500${data?.poster_path}`
+                : "https://www.fillmurray.com/200/300"
+            }
             alt={data?.title}
           />
         </Grid>
@@ -92,7 +148,7 @@ const MovieInformation = () => {
         {/* Movie Information */}
         <Grid item container direction='column' lg={8}>
           <Typography variant='h3' align='center' gutterBottom>
-            {data?.title} ({data?.release_date?.split("-")?.[0]})
+            {data?.title} {data?.release_date && `(${data?.release_date?.split("-")?.[0]})`}
           </Typography>
           <Typography variant='h5' align='center' gutterBottom>
             {data?.tagline}
@@ -221,16 +277,8 @@ const MovieInformation = () => {
                     WatchList
                   </Button>
 
-                  <Button endIcon={<ArrowBack />} sx={{ borderColor: "primary.main" }}>
-                    <Typography
-                      component={Link}
-                      to='/'
-                      color='inherit'
-                      variant='subtitle2'
-                      sx={{ textDecoration: "none" }}
-                    >
-                      Back
-                    </Typography>
+                  <Button endIcon={<ArrowBack />} onClick={() => navigate(-1)}>
+                    Back
                   </Button>
                 </ButtonGroup>
               </Grid>

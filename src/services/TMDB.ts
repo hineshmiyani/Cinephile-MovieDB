@@ -3,6 +3,7 @@ import {
   IActorDetails,
   IArgs,
   IGenres,
+  IGetListArgs,
   IMovieInfo,
   IMovies,
   IMoviesByActorArgs,
@@ -28,12 +29,12 @@ export const tmdbApi = createApi({
           return `search/movie?query=${searchQuery}&api_key=${tmdbApiKey}`;
         }
 
-        //* Get Movies by Category
+        //* Get Movies By Category
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === "string") {
           return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${tmdbApiKey}`;
         }
 
-        //* Get Movies by Genre
+        //* Get Movies By Genre
         if (genreIdOrCategoryName && typeof genreIdOrCategoryName === "number") {
           return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${tmdbApiKey}`;
         }
@@ -58,9 +59,15 @@ export const tmdbApi = createApi({
       query: (id) => `/person/${id}?api_key=${tmdbApiKey}`,
     }),
 
-    //* Get Movies by actor
+    //* Get Movies By Actor
     getMoviesByActorId: builder.query<IMovies, IMoviesByActorArgs>({
       query: ({ id, page }) => `discover/movie?with_cast=${id}&page=${page}&api_key=${tmdbApiKey}`,
+    }),
+
+    //* Get Favorite And WatchList Movies List
+    getList: builder.query<IMovies, IGetListArgs>({
+      query: ({ listName, accountId, sessionId, page }) =>
+        `account/${accountId}/${listName}?page=${page}&api_key=${tmdbApiKey}&session_id=${sessionId}`,
     }),
   }),
 });
@@ -72,4 +79,5 @@ export const {
   useGetRecommendationsQuery,
   useGetActorDetailsQuery,
   useGetMoviesByActorIdQuery,
+  useGetListQuery,
 } = tmdbApi;
