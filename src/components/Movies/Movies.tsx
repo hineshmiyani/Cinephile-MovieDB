@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Theme, Typography, useMediaQuery } from "@mui/material";
 import { useGetMoviesQuery } from "../../services/TMDB";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import { MovieList, MoviePagination } from "../index";
 
 const Movies = () => {
+  const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only("lg"));
+  const numberOfMovies = lg ? 16 : 18;
+
   const [page, setPage] = useState(1);
+
   const { genreIdOrCategoryName, searchQuery } = useAppSelector(
     (state: RootState) => state.currentGenreOrCategory,
   );
@@ -41,7 +45,7 @@ const Movies = () => {
 
   return (
     <>
-      <MovieList movies={data} />
+      <MovieList movies={data} numberOfMovies={numberOfMovies} />
       <MoviePagination currentPage={page} setPage={setPage} totalPages={data?.total_pages} />
     </>
   );

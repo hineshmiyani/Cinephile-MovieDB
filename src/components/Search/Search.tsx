@@ -4,6 +4,7 @@ import { alpha, InputBase, Theme, Box } from "@mui/material";
 import { styled } from "@mui/styles";
 import { useAppDispatch } from "../../app/hooks";
 import { searchMovie, selectGenreOrCategory } from "../../features/currentGenreOrCategory";
+import { useLocation } from "react-router-dom";
 
 const SearchContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
   position: "relative",
@@ -49,6 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }: { theme: Theme }) => ({
 }));
 
 const Search = () => {
+  const location = useLocation();
   const [query, setQuery] = useState<string>("");
   const dispatch = useAppDispatch();
 
@@ -58,6 +60,8 @@ const Search = () => {
       dispatch(searchMovie(query));
     }
   };
+
+  if (location?.pathname !== "/") return null;
 
   return (
     <>

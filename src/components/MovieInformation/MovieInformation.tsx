@@ -7,7 +7,9 @@ import {
   Grid,
   Modal,
   Rating,
+  Theme,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import {
   ArrowBack,
@@ -28,6 +30,9 @@ import MovieList from "../MovieList/MovieList";
 import { useState } from "react";
 
 const MovieInformation = () => {
+  const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only("lg"));
+  const buttonGroupSize = lg ? "small" : "medium";
+
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
@@ -66,7 +71,16 @@ const MovieInformation = () => {
     <>
       <Grid container sx={styles.containerSpaceAround}>
         {/* Movie Poster Image */}
-        <Grid item sm={12} lg={4}>
+        <Grid
+          item
+          sm={12}
+          lg={4}
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            mb: "30px",
+          }}
+        >
           <Box
             component='img'
             sx={styles.poster}
@@ -76,7 +90,7 @@ const MovieInformation = () => {
         </Grid>
 
         {/* Movie Information */}
-        <Grid item container direction='column' lg={7}>
+        <Grid item container direction='column' lg={8}>
           <Typography variant='h3' align='center' gutterBottom>
             {data?.title} ({data?.release_date?.split("-")?.[0]})
           </Typography>
@@ -93,10 +107,7 @@ const MovieInformation = () => {
               </Typography>
             </Box>
             <Typography variant='h6' align='center' gutterBottom>
-              {data?.runtime}min{" "}
-              {data?.spoken_languages && data?.spoken_languages.length > 0
-                ? `/ ${data?.spoken_languages?.[0]?.name}`
-                : ""}
+              {data?.runtime}min | Language: {data?.spoken_languages?.[0]?.name}
             </Typography>
           </Grid>
 
@@ -168,8 +179,8 @@ const MovieInformation = () => {
           {/* Button Group of Website, IMDB, Trailer, etc.. */}
           <Grid item container sx={{ mt: "2rem" }}>
             <Box sx={styles.buttonsContainer}>
-              <Grid item xs={12} sm={6} sx={styles.buttonsContainer}>
-                <ButtonGroup size='medium' variant='outlined'>
+              <Grid item xs={12} lg={6} sx={styles.buttonsContainer}>
+                <ButtonGroup size={buttonGroupSize} variant='outlined'>
                   {data && data?.homepage && (
                     <Button
                       target='_blank'
@@ -194,8 +205,8 @@ const MovieInformation = () => {
                 </ButtonGroup>
               </Grid>
 
-              <Grid item xs={12} sm={6} sx={styles.buttonsContainer}>
-                <ButtonGroup size='medium' variant='outlined'>
+              <Grid item xs={12} lg={6} sx={styles.buttonsContainer}>
+                <ButtonGroup size={buttonGroupSize} variant='outlined'>
                   <Button
                     onClick={addToFavorites}
                     endIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}

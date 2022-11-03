@@ -3,7 +3,7 @@ import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetActorDetailsQuery, useGetMoviesByActorIdQuery } from "../../services/TMDB";
-import { MovieList } from "../index";
+import { MovieList, MoviePagination } from "../index";
 import { styles } from "./styles";
 
 const Actors = () => {
@@ -89,7 +89,18 @@ const Actors = () => {
           <Typography variant='h3' align='center' gutterBottom>
             Movies
           </Typography>
-          {movieList ? <MovieList movies={movieList}></MovieList> : <Box>Nothing was found!</Box>}
+          {movieList ? (
+            <>
+              <MovieList movies={movieList} numberOfMovies={12}></MovieList>
+              <MoviePagination
+                currentPage={page}
+                setPage={setPage}
+                totalPages={movieList?.total_pages}
+              />
+            </>
+          ) : (
+            <Box>Nothing was found!</Box>
+          )}
         </Box>
       </Grid>
     </>
