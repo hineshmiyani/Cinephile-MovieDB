@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useGetMoviesQuery } from "../../services/TMDB";
 import { useAppSelector } from "../../app/hooks";
-import { MovieList } from "../index";
 import { RootState } from "../../app/store";
+import { MovieList, MoviePagination } from "../index";
 
 const Movies = () => {
   const [page, setPage] = useState(1);
@@ -16,7 +16,9 @@ const Movies = () => {
     searchQuery,
   });
 
-  console.log({ genreIdOrCategoryName });
+  useEffect(() => {
+    setPage(1);
+  }, [genreIdOrCategoryName, searchQuery]);
 
   if (isFetching) {
     return (
@@ -37,7 +39,12 @@ const Movies = () => {
 
   if (error) return <>An error has occurred.</>;
 
-  return <>{<MovieList movies={data} />}</>;
+  return (
+    <>
+      <MovieList movies={data} />
+      <MoviePagination currentPage={page} setPage={setPage} totalPages={data?.total_pages} />
+    </>
+  );
 };
 
 export default Movies;

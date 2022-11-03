@@ -65,14 +65,17 @@ const MovieInformation = () => {
   return (
     <>
       <Grid container sx={styles.containerSpaceAround}>
+        {/* Movie Poster Image */}
         <Grid item sm={12} lg={4}>
           <Box
             component='img'
             sx={styles.poster}
-            src={`https://image.tmdb.org/t/p/w500/${data?.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w500${data?.poster_path}`}
             alt={data?.title}
           />
         </Grid>
+
+        {/* Movie Information */}
         <Grid item container direction='column' lg={7}>
           <Typography variant='h3' align='center' gutterBottom>
             {data?.title} ({data?.release_date?.split("-")?.[0]})
@@ -81,6 +84,7 @@ const MovieInformation = () => {
             {data?.tagline}
           </Typography>
 
+          {/* Ratings and Movie length */}
           <Grid item alignItems='center' sx={styles.containerSpaceAround}>
             <Box display='flex' textAlign='center'>
               <Rating readOnly value={(data && data?.vote_average / 2) || 0} />
@@ -96,6 +100,7 @@ const MovieInformation = () => {
             </Typography>
           </Grid>
 
+          {/* Genres of Movie  */}
           <Grid item sx={styles.genresContainer}>
             {data?.genres?.map((genre) => (
               <Link
@@ -117,11 +122,15 @@ const MovieInformation = () => {
             ))}
           </Grid>
 
+          {/* Overview of movie */}
           <Typography variant='h5' gutterBottom sx={{ my: "10px" }}>
             Overview
           </Typography>
-          <Typography sx={{ mb: "2rem" }}>{data?.overview}</Typography>
+          <Typography sx={{ mb: "2rem" }} textAlign='justify'>
+            {data?.overview}
+          </Typography>
 
+          {/* Cast */}
           <Typography variant='h5' gutterBottom>
             Top Cast
           </Typography>
@@ -156,6 +165,7 @@ const MovieInformation = () => {
                 ?.slice(0, 6)}
           </Grid>
 
+          {/* Button Group of Website, IMDB, Trailer, etc.. */}
           <Grid item container sx={{ mt: "2rem" }}>
             <Box sx={styles.buttonsContainer}>
               <Grid item xs={12} sm={6} sx={styles.buttonsContainer}>
@@ -217,6 +227,7 @@ const MovieInformation = () => {
           </Grid>
         </Grid>
 
+        {/* Movies Recommendations  */}
         <Box mt='5rem' width='100%'>
           <Typography variant='h3' align='center' gutterBottom>
             You might also like
@@ -228,6 +239,7 @@ const MovieInformation = () => {
           )}
         </Box>
 
+        {/* Open Trailer Modal */}
         <Modal closeAfterTransition sx={styles.modal} open={open} onClose={() => setOpen(false)}>
           {data && data?.videos?.results?.length > 0 ? (
             <iframe

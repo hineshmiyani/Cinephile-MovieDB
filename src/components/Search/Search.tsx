@@ -3,7 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { alpha, InputBase, Theme, Box } from "@mui/material";
 import { styled } from "@mui/styles";
 import { useAppDispatch } from "../../app/hooks";
-import { searchMovie } from "../../features/currentGenreOrCategory";
+import { searchMovie, selectGenreOrCategory } from "../../features/currentGenreOrCategory";
 
 const SearchContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
   position: "relative",
@@ -54,6 +54,7 @@ const Search = () => {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (event.key === "Enter") {
+      dispatch(selectGenreOrCategory(""));
       dispatch(searchMovie(query));
     }
   };

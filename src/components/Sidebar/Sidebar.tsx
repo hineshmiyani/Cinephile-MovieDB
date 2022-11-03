@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Divider,
@@ -38,6 +38,10 @@ const Sidebar: React.FC<Props> = ({ setMobileOpen }) => {
   const { genreIdOrCategoryName } = useAppSelector((state) => state.currentGenreOrCategory);
   const { data, isFetching } = useGetGenresQuery();
 
+  useEffect(() => {
+    setSelectedList(genreIdOrCategoryName);
+  }, [genreIdOrCategoryName]);
+
   return (
     <>
       <Link to='/' style={styles.imageLink}>
@@ -57,7 +61,7 @@ const Sidebar: React.FC<Props> = ({ setMobileOpen }) => {
               sx={{ backgroundColor: selectedList === value ? "grey.300" : "" }}
               onClick={() => {
                 dispatch(selectGenreOrCategory(value));
-                setSelectedList(value);
+                // setSelectedList(value);
               }}
             >
               <ListItemIcon>
