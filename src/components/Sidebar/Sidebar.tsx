@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import genreIcons from "../../assets/genres";
 import { styles } from "./styles";
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
+import { RootState } from "../../app/store";
 
 const redLogo = "https://fontmeme.com/permalink/221028/eb6befb39dc0fe52bc4141138d503521.png";
 const blueLogo = "https://fontmeme.com/permalink/221028/5497c9a6731cf4c80c5033bd72a6e5c3.png";
@@ -32,14 +33,18 @@ type Props = {
 
 const Sidebar: React.FC<Props> = ({ setMobileOpen }) => {
   const theme = useTheme();
-  const [selectedList, setSelectedList] = useState<string | number>("popular");
+  const [selectedList, setSelectedList] = useState<string | number>("default");
 
   const dispatch = useAppDispatch();
-  const { genreIdOrCategoryName } = useAppSelector((state) => state.currentGenreOrCategory);
+  const { genreIdOrCategoryName } = useAppSelector(
+    (state: RootState) => state.currentGenreOrCategory,
+  );
   const { data, isFetching } = useGetGenresQuery();
 
   useEffect(() => {
-    setSelectedList(genreIdOrCategoryName);
+    setSelectedList((prevSelectedList) =>
+      prevSelectedList === "default" ? "popular" : genreIdOrCategoryName,
+    );
   }, [genreIdOrCategoryName]);
 
   return (
@@ -58,10 +63,10 @@ const Sidebar: React.FC<Props> = ({ setMobileOpen }) => {
           <Link key={value} to='/' style={{ ...styles.links, color: theme.palette.text.primary }}>
             <ListItem
               button
-              sx={{ backgroundColor: selectedList === value ? "grey.300" : "" }}
+              sx={{ backgroundColor: selectedList === value ? "action.selected" : "" }}
               onClick={() => {
                 dispatch(selectGenreOrCategory(value));
-                // setSelectedList(value);
+                setMobileOpen((prevMobileOpen) => !prevMobileOpen);
               }}
             >
               <ListItemIcon>
@@ -89,10 +94,10 @@ const Sidebar: React.FC<Props> = ({ setMobileOpen }) => {
             <Link key={name} to='/' style={{ ...styles.links, color: theme.palette.text.primary }}>
               <ListItem
                 button
-                sx={{ backgroundColor: selectedList === id ? "grey.300" : "" }}
+                sx={{ backgroundColor: selectedList === id ? "action.selected" : "" }}
                 onClick={() => {
                   dispatch(selectGenreOrCategory(id));
-                  setSelectedList(id);
+                  setMobileOpen((prevMobileOpen) => !prevMobileOpen);
                 }}
               >
                 <ListItemIcon>

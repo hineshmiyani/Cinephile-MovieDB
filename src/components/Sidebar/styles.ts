@@ -21,6 +21,6 @@ export const styles: IStyles = {
     textDecoration: "none",
   },
   genreImage: (theme: Theme) => ({
-    filter: theme.palette.mode === "dark" ? "invert(1)" : "dark",
+    filter: theme.palette.mode === "dark" ? "invert(1)" : "",
   }),
 };

@@ -165,7 +165,7 @@ export interface IMoviesByActorArgs {
 
 export interface IGetListArgs {
   listName: string;
-  accountId: number;
-  sessionId: number;
+  accountId: number | undefined;
+  sessionId: string | null;
   page: number;
 }

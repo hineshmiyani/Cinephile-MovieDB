@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import {
   AppBar,
   IconButton,
@@ -11,16 +12,18 @@ import {
   Box,
 } from "@mui/material";
 import { Menu, AccountCircle, Brightness4, Brightness7 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { styles } from "./styles";
 import { Search, Sidebar } from "../index";
+import { ColorModeContext } from "../../utils/ToggleColorMode";
 import { createSessionId, fetchToken, moviesApi } from "../../utils";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setUser, userSelector } from "../../features/auth";
+import { styles } from "./styles";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, user } = useAppSelector(userSelector);
+  const colorMode = useContext(ColorModeContext);
+
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   const theme = useTheme();
@@ -63,7 +66,11 @@ const Navbar = () => {
               <Menu />
             </IconButton>
           )}
-          <IconButton color='inherit' sx={{ ml: 1 }}>
+          <IconButton
+            color='inherit'
+            sx={{ ml: { xs: "auto", sm: 1 } }}
+            onClick={colorMode?.toggleColorMode}
+          >
             {theme.palette.mode === "dark" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
           {!isMobile && <Search />}
@@ -82,7 +89,7 @@ const Navbar = () => {
                 {!isMobile && <>My Movies &nbsp;</>}
                 <Avatar
                   src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
-                  sx={{ width: "30px", height: "30px" }}
+                  sx={{ width: "24px", height: "24px" }}
                   alt='profile'
                 ></Avatar>
               </Button>

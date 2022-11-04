@@ -17,7 +17,10 @@ export const styles: IStyles = {
   }),
   image: (theme) => ({
     borderRadius: "8px",
-    boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px",
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "rgba(50, 50, 93, 0.3) 0px 19px 38px, rgba(50, 50, 93, 0.22) 0px 15px 12px"
+        : "rgb(38, 57, 77) 0px 20px 30px -10px",
     width: "80%",
     [theme.breakpoints.down("md")]: {
       margin: "0 auto",

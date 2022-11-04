@@ -53,7 +53,7 @@ const Actors = () => {
         </Grid>
 
         {/* Actor Information */}
-        <Grid item direction='column' md={7} xl={8} sx={{ mt: { lg: "0", xs: "8px" } }}>
+        <Grid item container direction='column' md={7} xl={8} sx={{ mt: { lg: "0", xs: "8px" } }}>
           <Typography variant='h3' gutterBottom>
             {data?.name}
           </Typography>
@@ -71,7 +71,7 @@ const Actors = () => {
 
           <Box display='flex' justifyContent='space-around' mt='2rem'>
             <Button
-              variant='contained'
+              variant='outlined'
               color='primary'
               rel='noopener noreferrer'
               target='_blank'

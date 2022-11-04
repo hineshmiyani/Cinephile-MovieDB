@@ -304,10 +304,11 @@ const MovieInformation = () => {
             <iframe
               data-autoplay
               className='video'
-              frameBorder='0'
-              title='Trailer'
               src={`https://www.youtube.com/embed/${data?.videos?.results?.[0]?.key}`}
+              title='Trailer'
+              frameBorder='0'
               data-allow='autoplay'
+              allowFullScreen
             />
           ) : (
             <Box>Trailer doesn&apos;t found</Box>

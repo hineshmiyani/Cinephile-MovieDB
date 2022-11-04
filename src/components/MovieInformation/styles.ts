@@ -5,7 +5,7 @@ interface IStyles {
   poster: SxProps<Theme>;
   genresContainer: SxProps<Theme>;
   genreImage: SxProps<Theme>;
-  castImage: SxProps;
+  castImage: SxProps<Theme>;
   buttonsContainer: SxProps<Theme>;
   modal: SxProps<Theme>;
 }
@@ -22,7 +22,10 @@ export const styles: IStyles = {
   }),
   poster: (theme) => ({
     borderRadius: "8px",
-    boxShadow: "rgb(38, 57, 77) 0px 20px 30px -10px",
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "rgba(50, 50, 93, 0.3) 0px 19px 38px, rgba(50, 50, 93, 0.22) 0px 15px 12px"
+        : "rgb(38, 57, 77) 0px 20px 30px -10px",
     width: "80%",
     [theme.breakpoints.down("lg")]: {
       margin: "0 auto",
@@ -65,17 +68,21 @@ export const styles: IStyles = {
     filter: theme.palette.mode === "dark" ? "invert(1)" : "dark",
     marginRight: "10px",
   }),
-  castImage: {
+  castImage: (theme: Theme) => ({
     width: "100%",
     maxWidth: "6.5em",
     height: "8em",
     borderRadius: "8px",
-    boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+    boxShadow:
+      theme.palette.mode === "dark"
+        ? "rgba(50, 50, 93, 0.3) 0px 19px 38px, rgba(50, 50, 93, 0.22) 0px 15px 12px"
+        : "rgb(38, 57, 77) 0px 20px 30px -10px",
+    // boxShadow: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
     transition: "all 0.2s ease-in-out",
     "&:hover": {
       transform: "scale(1.05)",
     },
-  },
+  }),
   buttonsContainer: (theme: Theme) => ({
     display: "flex",
     justifyContent: "space-between",
@@ -91,7 +98,7 @@ export const styles: IStyles = {
     alignItems: "center",
     "& .video": {
       width: "60%",
-      height: "60%",
+      aspectRatio: "16 / 9",
       borderRadius: "8px",
       [theme.breakpoints.down("sm")]: {
         width: "90%",

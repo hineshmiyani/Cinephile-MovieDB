@@ -42,7 +42,8 @@ const Profile = () => {
         </Button>
       </Box>
 
-      {!(favoriteMovies?.results?.length > 0) && !(watchListMovies?.results?.length > 0) ? (
+      {!(favoriteMovies && favoriteMovies?.results?.length > 0) &&
+      !(watchListMovies && watchListMovies?.results?.length > 0) ? (
         <Typography variant='h5'>
           Add favorites or watchlist some movies to see them here!
         </Typography>
