@@ -7,7 +7,6 @@ interface IStyles {
   genreImage: SxProps<Theme>;
   castImage: SxProps<Theme>;
   buttonsContainer: SxProps<Theme>;
-  modal: SxProps<Theme>;
 }
 
 export const styles: IStyles = {
@@ -90,20 +89,6 @@ export const styles: IStyles = {
     [theme.breakpoints.down("lg")]: {
       flexDirection: "column",
       rowGap: "1rem",
-    },
-  }),
-  modal: (theme: Theme) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    "& .video": {
-      width: "60%",
-      aspectRatio: "16 / 9",
-      borderRadius: "8px",
-      [theme.breakpoints.down("sm")]: {
-        width: "90%",
-        aspectRatio: "4 / 3",
-      },
     },
   }),
 };

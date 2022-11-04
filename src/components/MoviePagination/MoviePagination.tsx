@@ -1,4 +1,4 @@
-import { Box, Pagination } from "@mui/material";
+import { Box, Pagination, Theme, useMediaQuery } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
 type Props = {
@@ -8,6 +8,9 @@ type Props = {
 };
 
 const MoviePagination = ({ currentPage, setPage, totalPages }: Props) => {
+  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const paginationSize = isMobile ? "small" : "large";
+
   const handleChange = (e: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
@@ -16,7 +19,7 @@ const MoviePagination = ({ currentPage, setPage, totalPages }: Props) => {
     <Box mt={3} display='flex' justifyContent='center'>
       <Pagination
         color='primary'
-        size='large'
+        size={paginationSize}
         count={totalPages >= 500 ? 500 : totalPages}
         page={currentPage}
         onChange={handleChange}

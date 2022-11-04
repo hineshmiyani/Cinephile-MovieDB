@@ -23,7 +23,7 @@ import {
   Remove,
   Theaters,
 } from "@mui/icons-material";
-import { MovieList } from "..";
+import { AlertLoginModal, MovieList, TrailerModal } from "..";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useGetListQuery, useGetMovieQuery, useGetRecommendationsQuery } from "../../services/TMDB";
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
@@ -58,7 +58,9 @@ const MovieInformation = () => {
     page: 1,
   });
 
+  const [contentText, setContentText] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
+  const [openLoginModal, setOpenLoginModal] = useState<boolean>(false);
 
   const [isMovieFavorited, setIsMovieFavorited] = useState<boolean>(false);
   const [isMovieWatchListed, setIsMovieWatchListed] = useState<boolean>(false);
@@ -88,31 +90,41 @@ const MovieInformation = () => {
   }, [watchListMovies, data]);
 
   const addToFavorites = async () => {
-    await axios.post(
-      `https://api.themoviedb.org/3/account/${user?.id}/favorite?api_key=${
-        process.env.REACT_APP_TMDB_KEY
-      }&session_id=${localStorage.getItem("session_id")}`,
-      {
-        media_type: "movie",
-        media_id: id,
-        favorite: !isMovieFavorited,
-      },
-    );
-    setIsMovieFavorited((prevIsMovieFavorited) => !prevIsMovieFavorited);
+    if (user?.id) {
+      await axios.post(
+        `https://api.themoviedb.org/3/account/${user?.id}/favorite?api_key=${
+          process.env.REACT_APP_TMDB_KEY
+        }&session_id=${localStorage.getItem("session_id")}`,
+        {
+          media_type: "movie",
+          media_id: id,
+          favorite: !isMovieFavorited,
+        },
+      );
+      setIsMovieFavorited((prevIsMovieFavorited) => !prevIsMovieFavorited);
+    } else {
+      setContentText("Please login to add this movie to your favorites list.");
+      setOpenLoginModal(true);
+    }
   };
 
   const addToWatchList = async () => {
-    await axios.post(
-      `https://api.themoviedb.org/3/account/${user?.id}/watchlist?api_key=${
-        process.env.REACT_APP_TMDB_KEY
-      }&session_id=${localStorage.getItem("session_id")}`,
-      {
-        media_type: "movie",
-        media_id: id,
-        watchlist: !isMovieWatchListed,
-      },
-    );
-    setIsMovieWatchListed((prevIsMovieWatchListed) => !prevIsMovieWatchListed);
+    if (user?.id) {
+      await axios.post(
+        `https://api.themoviedb.org/3/account/${user?.id}/watchlist?api_key=${
+          process.env.REACT_APP_TMDB_KEY
+        }&session_id=${localStorage.getItem("session_id")}`,
+        {
+          media_type: "movie",
+          media_id: id,
+          watchlist: !isMovieWatchListed,
+        },
+      );
+      setIsMovieWatchListed((prevIsMovieWatchListed) => !prevIsMovieWatchListed);
+    } else {
+      setContentText("Please login to add this movie to your watch list.");
+      setOpenLoginModal(true);
+    }
   };
 
   if (isFetching) {
@@ -313,21 +325,14 @@ const MovieInformation = () => {
         </Box>
 
         {/* Open Trailer Modal */}
-        <Modal closeAfterTransition sx={styles.modal} open={open} onClose={() => setOpen(false)}>
-          {data && data?.videos?.results?.length > 0 ? (
-            <iframe
-              data-autoplay
-              className='video'
-              src={`https://www.youtube.com/embed/${trailer?.key}`}
-              title='Trailer'
-              frameBorder='0'
-              data-allow='autoplay'
-              allowFullScreen
-            />
-          ) : (
-            <Box>Trailer doesn&apos;t found</Box>
-          )}
-        </Modal>
+        <TrailerModal trailer={trailer} open={open} setOpen={setOpen} />
+
+        {/* Open Alert login Modal */}
+        <AlertLoginModal
+          openLoginModal={openLoginModal}
+          setOpenLoginModal={setOpenLoginModal}
+          contentText={contentText}
+        />
       </Grid>
     </>
   );

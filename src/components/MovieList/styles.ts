@@ -8,7 +8,7 @@ export const styles: IStyles = {
   moviesContainer: (theme: Theme) => ({
     display: "flex",
     flexWrap: "wrap",
-    overflow: "auto",
+    overflow: "hidden",
     [theme.breakpoints.down("sm")]: {
       justifyContent: "center",
     },

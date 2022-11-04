@@ -14,10 +14,19 @@ type Props = {
 };
 
 const ToggleColorMode = ({ children }: Props) => {
-  const [mode, setMode] = useState<PaletteMode | undefined>("light");
+  const [mode, setMode] = useState<PaletteMode | undefined>(() => {
+    const themeModeFromLocalStorage: PaletteMode | undefined = JSON.parse(
+      localStorage.getItem("theme_mode") || '"dark"',
+    );
+    return themeModeFromLocalStorage ? themeModeFromLocalStorage : "dark";
+  });
 
   const toggleColorMode = () => {
-    setMode((prev) => (prev === "light" ? "dark" : "light"));
+    setMode((prev) => {
+      const themeMode = prev === "light" ? "dark" : "light";
+      localStorage.setItem("theme_mode", JSON.stringify(themeMode));
+      return themeMode;
+    });
   };
 
   const theme = useMemo(
