@@ -102,7 +102,7 @@ export const styles: IStyles = {
       borderRadius: "8px",
       [theme.breakpoints.down("sm")]: {
         width: "90%",
-        height: "90%",
+        aspectRatio: "4 / 3",
       },
     },
   }),

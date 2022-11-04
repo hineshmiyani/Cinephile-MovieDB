@@ -30,7 +30,7 @@ import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
 import { userSelector } from "../../features/auth";
 import genreIcons from "../../assets/genres";
 import { styles } from "./styles";
-import { IMovie } from "../../services/interfaces";
+import { IMovie, IVideo } from "../../services/interfaces";
 
 const MovieInformation = () => {
   const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only("lg"));
@@ -62,6 +62,18 @@ const MovieInformation = () => {
 
   const [isMovieFavorited, setIsMovieFavorited] = useState<boolean>(false);
   const [isMovieWatchListed, setIsMovieWatchListed] = useState<boolean>(false);
+  const [trailer, setTrailer] = useState<IVideo | undefined>(undefined);
+
+  useEffect(() => {
+    const findTrailer = () => {
+      const trailerList =
+        data &&
+        data?.videos?.results?.filter((video) => video?.name?.toLowerCase()?.includes("trailer"));
+      const trailer = trailerList && trailerList?.find((trailer) => trailer?.official);
+      setTrailer(() => (trailer ? trailer : trailerList?.[0]));
+    };
+    findTrailer();
+  }, [data]);
 
   useEffect(() => {
     setIsMovieFavorited(
@@ -255,9 +267,11 @@ const MovieInformation = () => {
                   >
                     IMDB
                   </Button>
-                  <Button href='#' endIcon={<Theaters />} onClick={() => setOpen(true)}>
-                    Trailer
-                  </Button>
+                  {trailer?.key && (
+                    <Button href='#' endIcon={<Theaters />} onClick={() => setOpen(true)}>
+                      Trailer
+                    </Button>
+                  )}
                 </ButtonGroup>
               </Grid>
 
@@ -304,7 +318,7 @@ const MovieInformation = () => {
             <iframe
               data-autoplay
               className='video'
-              src={`https://www.youtube.com/embed/${data?.videos?.results?.[0]?.key}`}
+              src={`https://www.youtube.com/embed/${trailer?.key}`}
               title='Trailer'
               frameBorder='0'
               data-allow='autoplay'
