@@ -7,14 +7,12 @@ import {
   ButtonGroup,
   CircularProgress,
   Grid,
-  Modal,
   Rating,
   Theme,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import {
-  Add,
   ArrowBack,
   Bookmark,
   BookmarkBorder,
@@ -22,7 +20,6 @@ import {
   FavoriteBorderOutlined,
   Language,
   Movie,
-  Remove,
   Theaters,
 } from "@mui/icons-material";
 import { AlertLoginModal, MovieList, TrailerModal } from "..";
@@ -45,8 +42,10 @@ const MovieInformation = () => {
   const { user } = useAppSelector(userSelector);
 
   const { data, isFetching, error } = useGetMovieQuery(id);
-  const { data: recommendations, isFetching: isRecommendationsFetching } =
-    useGetRecommendationsQuery({ movie_id: id, list: "recommendations" });
+  const { data: recommendations } = useGetRecommendationsQuery({
+    movie_id: id,
+    list: "recommendations",
+  });
   const { data: favoriteMovies } = useGetListQuery({
     listName: "favorite/movies",
     accountId: user?.id,

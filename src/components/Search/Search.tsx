@@ -1,4 +1,4 @@
-import React, { useState, useEffect, KeyboardEvent } from "react";
+import React, { useState, KeyboardEvent } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { alpha, InputBase, Theme, Box } from "@mui/material";
 import { styled } from "@mui/styles";

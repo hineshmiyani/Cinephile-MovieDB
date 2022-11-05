@@ -13,7 +13,7 @@ const Actors = () => {
   const [page, setPage] = useState(1);
 
   const { data, isFetching, error } = useGetActorDetailsQuery(id);
-  const { data: movieList, isFetching: isMovieListFetching } = useGetMoviesByActorIdQuery({
+  const { data: movieList } = useGetMoviesByActorIdQuery({
     id,
     page,
   });
