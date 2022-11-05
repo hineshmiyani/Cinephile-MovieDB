@@ -1,6 +1,6 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetActorDetailsQuery, useGetMoviesByActorIdQuery } from "../../services/TMDB";
 import { MovieList, MoviePagination } from "../index";
@@ -17,6 +17,11 @@ const Actors = () => {
     id,
     page,
   });
+
+  useEffect(() => {
+    // Reset Scroll Position
+    setTimeout(() => window.scrollTo(0, 0));
+  }, [id, page]);
 
   if (isFetching) {
     return (

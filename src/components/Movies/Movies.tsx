@@ -21,6 +21,11 @@ const Movies = () => {
   });
 
   useEffect(() => {
+    // Reset Scroll Position
+    setTimeout(() => window.scrollTo(0, 0));
+  }, [page, searchQuery, genreIdOrCategoryName]);
+
+  useEffect(() => {
     setPage(1);
   }, [genreIdOrCategoryName, searchQuery]);
 

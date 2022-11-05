@@ -76,7 +76,9 @@ const MovieInformation = () => {
       setTrailer(() => (trailer ? trailer : trailerList?.[0]));
     };
     findTrailer();
-  }, [data]);
+    // Reset Scroll Position
+    setTimeout(() => window.scrollTo(0, 0));
+  }, [data, id]);
 
   useEffect(() => {
     setIsMovieFavorited(
