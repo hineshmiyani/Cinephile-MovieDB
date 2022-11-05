@@ -14,12 +14,14 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import {
+  Add,
   ArrowBack,
+  Bookmark,
+  BookmarkBorder,
   Favorite,
   FavoriteBorderOutlined,
   Language,
   Movie,
-  PlusOne,
   Remove,
   Theaters,
 } from "@mui/icons-material";
@@ -291,16 +293,16 @@ const MovieInformation = () => {
                 <ButtonGroup size={buttonGroupSize} variant='outlined'>
                   <Button
                     onClick={addToFavorites}
-                    endIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}
+                    endIcon={isMovieFavorited ? <Favorite /> : <FavoriteBorderOutlined />}
                   >
                     {isMovieFavorited ? "Unfavorite" : "Favorite"}
                   </Button>
 
                   <Button
                     onClick={addToWatchList}
-                    endIcon={isMovieWatchListed ? <Remove /> : <PlusOne />}
+                    endIcon={isMovieWatchListed ? <Bookmark /> : <BookmarkBorder />}
                   >
-                    WatchList
+                    {isMovieWatchListed ? "WatchListed" : "WatchList"}
                   </Button>
 
                   <Button endIcon={<ArrowBack />} onClick={() => navigate(-1)}>

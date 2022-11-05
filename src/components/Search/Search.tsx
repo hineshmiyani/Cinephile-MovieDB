@@ -70,7 +70,7 @@ const Search = () => {
           <SearchIcon sx={{ fontSize: { xs: "20px", sm: "24px" } }} />
         </SearchIconWrapper>
         <StyledInputBase
-          placeholder='Search…'
+          placeholder='Search a movie...'
           inputProps={{ "aria-label": "search" }}
           value={query}
           onChange={(e) => setQuery(e.target.value)}

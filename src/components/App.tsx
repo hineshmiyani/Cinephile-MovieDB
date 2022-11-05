@@ -1,9 +1,13 @@
-import { Box, Container, CssBaseline } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import { Box, Container, CssBaseline } from "@mui/material";
 import { Actors, MovieInformation, Movies, Navbar, Profile } from "./index";
+import useAlan from "./Alan";
 import { styles } from "./styles";
+import { useRef } from "react";
 
 const App = () => {
+  const alanBtnContainer = useRef();
+  useAlan();
   return (
     <Container maxWidth={false} sx={styles.root}>
       <CssBaseline />
@@ -18,6 +22,7 @@ const App = () => {
           <Route path='/profile/:id' element={<Profile />} />
         </Routes>
       </Box>
+      <Box ref={alanBtnContainer} />
     </Container>
   );
 };
