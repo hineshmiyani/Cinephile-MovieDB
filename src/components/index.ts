@@ -11,3 +11,4 @@ export { default as MoviePagination } from "./MoviePagination/MoviePagination";
 export { default as RatedCards } from "./RatedCards/RatedCards";
 export { default as TrailerModal } from "./TrailerModal/TrailerModal";
 export { default as AlertLoginModal } from "./AlertLoginModal/AlertLoginModal";
+export { default as FeaturedMovie } from "./FeaturedMovie/FeaturedMovie";

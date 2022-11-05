@@ -22,6 +22,9 @@ export interface IUser {
 
 export interface IAvatar {
   gravatar: IGravatar;
+  tmdb: {
+    avatar_path: null;
+  };
 }
 
 export interface IGravatar {

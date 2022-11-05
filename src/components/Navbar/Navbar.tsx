@@ -88,9 +88,9 @@ const Navbar = () => {
               >
                 {!isMobile && <>My Movies &nbsp;</>}
                 <Avatar
-                  src='https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png'
+                  src={`https://www.themoviedb.org/t/p/w64_and_w64_face${user?.avatar?.tmdb?.avatar_path}`}
                   sx={{ width: "24px", height: "24px" }}
-                  alt='profile'
+                  alt={user?.username}
                 ></Avatar>
               </Button>
             )}

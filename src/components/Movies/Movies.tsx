@@ -3,11 +3,11 @@ import { Box, CircularProgress, Theme, Typography, useMediaQuery } from "@mui/ma
 import { useGetMoviesQuery } from "../../services/TMDB";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
-import { MovieList, MoviePagination } from "../index";
+import { FeaturedMovie, MovieList, MoviePagination } from "../index";
 
 const Movies = () => {
   const lg = useMediaQuery((theme: Theme) => theme.breakpoints.only("lg"));
-  const numberOfMovies = lg ? 16 : 18;
+  const numberOfMovies = lg ? 17 : 19;
 
   const [page, setPage] = useState(1);
 
@@ -45,7 +45,8 @@ const Movies = () => {
 
   return (
     <>
-      <MovieList movies={data} numberOfMovies={numberOfMovies} />
+      <FeaturedMovie movie={data?.results[0]} />
+      <MovieList movies={data} numberOfMovies={numberOfMovies} excludeFirst />
       <MoviePagination currentPage={page} setPage={setPage} totalPages={data?.total_pages} />
     </>
   );

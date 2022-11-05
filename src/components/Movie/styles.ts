@@ -23,7 +23,7 @@ export const styles: IStyles = {
     },
     "& .image": {
       borderRadius: "8px",
-      height: "280px",
+      height: { xs: "330px", sm: "280px" },
       marginBottom: "10px",
       boxShadow:
         theme.palette.mode === "dark"
