@@ -10,11 +10,7 @@ type Props = {
 const RatedCards = ({ title, data }: Props) => {
   return (
     <>
-      {data && data?.results?.length > 0 && (
-        <Typography variant='h5' gutterBottom>
-          {title}
-        </Typography>
-      )}
+      {data && data?.results?.length > 0 && <Typography variant='h6'>{title}</Typography>}
       <Box
         display='flex'
         flexWrap='wrap'

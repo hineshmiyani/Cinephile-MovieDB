@@ -317,9 +317,11 @@ const MovieInformation = () => {
 
         {/* Movies Recommendations  */}
         <Box mt='5rem' width='100%'>
-          <Typography variant='h3' align='center' gutterBottom>
-            You might also like
-          </Typography>
+          {recommendations && recommendations?.results?.length > 0 && (
+            <Typography variant='h3' align='center' gutterBottom>
+              You might also like
+            </Typography>
+          )}
           {recommendations ? (
             <MovieList movies={recommendations} numberOfMovies={12} />
           ) : (

@@ -33,18 +33,18 @@ const Profile = () => {
 
   return (
     <Box>
-      <Box display='flex' justifyContent='space-between' mb={2}>
-        <Typography variant='h4' gutterBottom>
+      <Box display='flex' justifyContent='space-between' alignItems='center' mb={2}>
+        <Typography variant='h5' fontWeight='500'>
           My Profile
         </Typography>
-        <Button color='inherit' onClick={logout}>
+        <Button color='primary' variant='outlined' onClick={logout}>
           Logout &nbsp; <ExitToApp />
         </Button>
       </Box>
 
       {!(favoriteMovies && favoriteMovies?.results?.length > 0) &&
       !(watchListMovies && watchListMovies?.results?.length > 0) ? (
-        <Typography variant='h5'>
+        <Typography variant='h6'>
           Add favorites or watchlist some movies to see them here!
         </Typography>
       ) : (
