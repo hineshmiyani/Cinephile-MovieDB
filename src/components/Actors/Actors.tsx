@@ -1,6 +1,6 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetActorDetailsQuery, useGetMoviesByActorIdQuery } from "../../services/TMDB";
 import { MovieList, MoviePagination } from "../index";
@@ -10,6 +10,7 @@ const Actors = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const moviesSectionRef = useRef<HTMLHeadingElement | null>(null);
   const [page, setPage] = useState(1);
 
   const { data, isFetching, error } = useGetActorDetailsQuery(id);
@@ -19,9 +20,19 @@ const Actors = () => {
   });
 
   useEffect(() => {
-    // Reset Scroll Position
+    // Reset Scroll Position When Page Change
+    setTimeout(() => {
+      const moviesPosition: number = moviesSectionRef?.current?.offsetTop
+        ? moviesSectionRef?.current?.offsetTop - 100
+        : 0;
+      window.scrollTo(0, moviesPosition);
+    });
+  }, [page]);
+
+  useEffect(() => {
+    // Reset Scroll Position When Actor Id change
     setTimeout(() => window.scrollTo(0, 0));
-  }, [id, page]);
+  }, [id]);
 
   if (isFetching) {
     return (
@@ -91,7 +102,13 @@ const Actors = () => {
         </Grid>
 
         <Box mt='3rem' width='100%'>
-          <Typography variant='h3' align='center' gutterBottom>
+          <Typography
+            variant='h3'
+            component='h3'
+            align='center'
+            gutterBottom
+            ref={moviesSectionRef}
+          >
             Movies
           </Typography>
           {movieList ? (
